@@ -65,3 +65,33 @@ password = "your-password"
 ```python
 python douban_books_crawler.py
 ```
+## 核心代码简析
+```python
+def retry_request(url, max_retries=5):
+    """
+    对指定 url 发起请求并进行多次重试的函数。
+    若请求成功，返回 response 对象；若失败且达到最大重试次数，返回 None
+    """
+    retries = 0
+    while retries < max_retries:
+        try:
+            response = requests.get(url, headers=headers, proxies=proxies)
+            response.raise_for_status()
+            return response
+        except requests.RequestException as e:
+            print(f"请求 {url} 失败，第 {retries + 1} 次重试: {e}")
+            retries += 1
+            time.sleep(2)
+    return None
+```
+- retry_request 函数封装了**重试逻辑**，在网络状况不稳定或请求被拒绝时，自动进行多次请求，增强了脚本的可靠性。
+- 脚本主逻辑则是：先获取管理分类下的书籍列表，然后遍历每本书的**详情页**提取**短评**。最后将爬取结果写入 Excel 文件。
+## 注意事项
+- 数据合法性：使用本脚本应遵守豆瓣官方的服务条款；请勿过度或非法抓取，以防对目标网站造成负担或违反网站使用协议。
+- 网络环境：脚本依赖代理服务，需确保代理服务可用且账号信息正确。
+- 爬取频率：请在脚本中适度调整爬取频率（如增加 time.sleep），避免对目标网站造成影响。
+## 许可证
+- 本项目仅供个人学习、研究之用。如需商用或二次开发，请遵守 MIT License 或其他指定许可证条款，并确保不侵犯目标网站或其他第三方的合法权益。
+
+- 如有问题或改进建议，欢迎提交 Issue 或发起 Pull Request。
+- 感谢你的关注与支持！
