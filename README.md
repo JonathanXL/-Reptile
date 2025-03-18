@@ -1,9 +1,9 @@
-# -Reptile
+# Reptile
 Python大数据处理之爬虫
 # Douban Books Comments Crawler
 
 > **一个基于 Python 的爬虫项目，用于爬取豆瓣“管理”分类的部分图书短评信息。**  
-> **作者：jxl | | ：**
+> **作者：JonathanXL**
 
 ## 目录
 - [项目介绍](#项目介绍)
